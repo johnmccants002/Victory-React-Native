@@ -173,7 +173,12 @@ const SignInScreen = () => {
             </Text>
           </View>
           <View style={styles.button}>
-            <TouchableOpacity style={styles.signIn} onPress={() => {}}>
+            <TouchableOpacity
+              style={styles.signIn}
+              onPress={() => {
+                navigation.navigate("SignUp");
+              }}
+            >
               <Text
                 style={[
                   styles.textSign,

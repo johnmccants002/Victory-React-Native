@@ -6,23 +6,31 @@ import { SignUpNavigator, MainNavigator } from "./src/navigation/AppNavigator";
 import { Amplify, Auth } from "aws-amplify";
 import awsconfig from "./src/aws-exports";
 import { useState, useEffect } from "react";
+import { User } from "./src/store/userSlice";
 // import { withAuthenticator } from "@aws-amplify/ui-react";
 
 Amplify.configure(awsconfig);
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const getUser = async () => {
     const userInfo = await Auth.currentUserInfo();
-    console.log("userInfo", userInfo);
-    console.log(userInfo.attributes, "User Info Attributes");
-    setUser(userInfo.attributes);
+
+    const { email, preferred_username } = userInfo.attributes;
+    const { id } = userInfo;
+    setUser({
+      email: email,
+      id: id,
+      preferred_username: preferred_username,
+    });
   };
 
   useEffect(() => {
     if (!user) {
       getUser();
+    } else {
+      console.log("THIS IS THE USER USEEFFECT", user);
     }
   }, [user]);
   return (

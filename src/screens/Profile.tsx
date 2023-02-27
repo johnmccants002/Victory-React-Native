@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { User } from "../store/userSlice";
+import CreateVictory from "./CreateVictory";
+import { DataStore } from "aws-amplify";
+import { Victory } from "../models/index";
+import { Amplify, Auth } from "aws-amplify";
 
 interface ProfileProps {
   user?: User;
@@ -9,7 +13,26 @@ interface ProfileProps {
 const Profile = (props: ProfileProps) => {
   const [user, setUser] = useState<User | null>(props.user ? props.user : null);
 
-  useEffect(() => {}, []);
+  console.log(`PROFILE USER: ${JSON.stringify(user)}`);
+
+  const [userVictories, setUserVictories] = useState<Array<Victory>>([]);
+
+  useEffect(() => {
+    fetchUserVictories();
+  }, []);
+
+  const fetchUserVictories = async () => {
+    console.log("THIS IS THE USER", user);
+    const userInfo = await Auth.currentUserInfo();
+    if (user) {
+      const victories = await DataStore.query(Victory, (c) =>
+        c.user.eq(userInfo.id)
+      );
+
+      console.log("THESE ARE THE VICTORIES: ", victories);
+      setUserVictories(victories);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -26,6 +49,12 @@ const Profile = (props: ProfileProps) => {
         React Native
       </Text>
       <Text style={styles.name}>{user?.preferred_username}</Text>
+
+      {user && <CreateVictory user={user} />}
+
+      {userVictories.map((victory) => {
+        return <Text style={{ padding: 20 }}>{victory.victoryText}</Text>;
+      })}
     </View>
   );
 };

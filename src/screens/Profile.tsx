@@ -13,8 +13,18 @@ const Profile = (props: ProfileProps) => {
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: user?.photoUrl }} style={styles.photo} />
-      <Text style={styles.about}>{user?.aboutText}</Text>
+      <Image
+        source={{
+          uri: user?.photoUrl
+            ? user?.photoUrl
+            : "https://i.imgur.com/MWTxxA6.jpg",
+        }}
+        style={styles.photo}
+      />
+      <Text style={styles.about}>
+        Yoooo I'm John McCants and I am currently building this Victory App on
+        React Native
+      </Text>
       <Text style={styles.name}>{user?.preferred_username}</Text>
     </View>
   );
@@ -24,7 +34,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    paddingTop: 40,
+    padding: 20,
   },
   photo: {
     width: 120,

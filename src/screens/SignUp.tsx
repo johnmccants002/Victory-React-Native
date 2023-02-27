@@ -14,6 +14,7 @@ import {
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Auth } from "aws-amplify";
 
 const SignInScreen = () => {
   const [data, setData] = React.useState({
@@ -24,6 +25,8 @@ const SignInScreen = () => {
     secureTextEntry: true,
     confirm_secureTextEntry: true,
   });
+  const [code, setCode] = React.useState<string>("");
+  const [codeMode, setCodeMode] = React.useState<boolean>(false);
 
   const navigation = useNavigation();
 
@@ -70,6 +73,40 @@ const SignInScreen = () => {
       confirm_secureTextEntry: !data.confirm_secureTextEntry,
     });
   };
+
+  const updateCode = (val: string) => {
+    setCode(val);
+  };
+
+  async function signUp() {
+    try {
+      const { user } = await Auth.signUp({
+        username: data.username,
+        password: data.password,
+        attributes: {
+          email: data.username,
+          preferred_username: data.username,
+          // optional
+        },
+        autoSignIn: {
+          // optional - enables auto sign in after user is confirmed
+          enabled: true,
+        },
+      });
+      console.log(user);
+      setCodeMode(true);
+    } catch (error) {
+      console.log("error signing up:", error);
+    }
+  }
+
+  async function confirmSignUp() {
+    try {
+      await Auth.confirmSignUp(data.username, code);
+    } catch (error) {
+      console.log("error confirming sign up", error);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -129,6 +166,16 @@ const SignInScreen = () => {
                 <MaterialCommunityIcons name="eye" color="grey" size={20} />
               )}
             </TouchableOpacity>
+
+            {codeMode && (
+              <TextInput
+                placeholder="Enter Code"
+                style={styles.textInput}
+                autoCapitalize="none"
+                value={code}
+                onChangeText={(val) => updateCode(val)}
+              />
+            )}
           </View>
 
           <Text
@@ -158,6 +205,7 @@ const SignInScreen = () => {
               )}
             </TouchableOpacity>
           </View>
+          {}
           <View style={styles.textPrivate}>
             <Text style={styles.color_textPrivate}>
               By signing up you agree to our
@@ -176,18 +224,18 @@ const SignInScreen = () => {
             <TouchableOpacity
               style={styles.signIn}
               onPress={() => {
-                navigation.navigate("SignUp");
+                codeMode ? confirmSignUp() : signUp();
               }}
             >
               <Text
                 style={[
                   styles.textSign,
                   {
-                    color: "#fff",
+                    color: "black",
                   },
                 ]}
               >
-                Sign Up
+                {codeMode ? "Confirm Code" : "Sign Up"}
               </Text>
             </TouchableOpacity>
 

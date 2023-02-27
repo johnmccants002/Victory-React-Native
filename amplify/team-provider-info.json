@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-victoryapp-staging-95751-authRole",
+      "UnauthRoleArn": "arn:aws:iam::290830860222:role/amplify-victoryapp-staging-95751-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::290830860222:role/amplify-victoryapp-staging-95751-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-victoryapp-staging-95751-deployment",
+      "UnauthRoleName": "amplify-victoryapp-staging-95751-unauthRole",
+      "StackName": "amplify-victoryapp-staging-95751",
+      "StackId": "arn:aws:cloudformation:us-east-1:290830860222:stack/amplify-victoryapp-staging-95751/ddf96db0-b4f2-11ed-aad4-123e8eda6a93",
+      "AmplifyAppId": "d1tolryq23l3b9"
+    },
+    "categories": {
+      "auth": {
+        "VictoryApp": {}
+      }
+    }
+  }
+}

@@ -2,12 +2,32 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import SignUp from "./src/screens/SignUp";
 import { NavigationContainer } from "@react-navigation/native";
-import SignUpNavigator from "./src/navigation/AppNavigator";
+import { SignUpNavigator, MainNavigator } from "./src/navigation/AppNavigator";
+import { Amplify, Auth } from "aws-amplify";
+import awsconfig from "./src/aws-exports";
+import { useState, useEffect } from "react";
+// import { withAuthenticator } from "@aws-amplify/ui-react";
 
-export default function App() {
+Amplify.configure(awsconfig);
+
+function App() {
+  const [user, setUser] = useState(null);
+
+  const getUser = async () => {
+    const userInfo = await Auth.currentUserInfo();
+    console.log("userInfo", userInfo);
+    console.log(userInfo.attributes, "User Info Attributes");
+    setUser(userInfo.attributes);
+  };
+
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+  }, [user]);
   return (
     <NavigationContainer>
-      <SignUpNavigator />
+      {user ? <MainNavigator user={user} /> : <SignUpNavigator />}
     </NavigationContainer>
   );
 }
@@ -20,3 +40,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+export default App;

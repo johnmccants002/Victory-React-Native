@@ -1,0 +1,6 @@
+type Victory @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  user: ID!
+  victoryText: String!
+  victoryImage: AWSURL
+}

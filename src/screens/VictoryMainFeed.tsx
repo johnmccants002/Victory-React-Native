@@ -83,7 +83,7 @@ export const VictoryMainFeed = () => {
               },
               shadowOpacity: 0.1,
               shadowRadius: 2,
-              width: "80%",
+              width: "90%",
               height: 240,
             }}
           >

@@ -13,6 +13,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import VictoryMainFeed from "../screens/VictoryMainFeed";
 import CreateVictoryHeader from "../components/CreateVictoryHeader";
 import CreateVictory from "../screens/CreateVictory";
+import { Chat } from "../screens/Chat";
 
 interface MainNavigatorProps {
   user: User;
@@ -22,6 +23,7 @@ type MainParamList = {
   Profile: undefined;
   VictoryMainFeed: undefined;
   CreateVictory: undefined;
+  Chat: undefined;
 };
 
 type FeedParamList = {
@@ -29,7 +31,12 @@ type FeedParamList = {
   CreateVictory: undefined;
 };
 
+type ChatParamList = {
+  Chat: undefined;
+};
+
 const FeedStack = createStackNavigator<FeedParamList>();
+const ChatStack = createStackNavigator<ChatParamList>();
 const MainTabs = createBottomTabNavigator<MainParamList>();
 
 export const TabNavigator = (props) => {
@@ -44,6 +51,7 @@ export const TabNavigator = (props) => {
       }}
     >
       <MainTabs.Screen name="VictoryMainFeed" component={FeedNavigator} />
+      <MainTabs.Screen name="Chat" component={ChatNavigator} />
 
       <MainTabs.Screen
         name="Profile"
@@ -87,6 +95,15 @@ export const FeedNavigator = () => {
       />
       <FeedStack.Screen name="CreateVictory" component={CreateVictory} />
     </FeedStack.Navigator>
+  );
+};
+
+export const ChatNavigator = () => {
+  return (
+    <ChatStack.Navigator>
+      <ChatStack.Screen name="Chat" component={Chat} options={{}} />
+      <ChatStack.Screen name="Chat" component={Chat} />
+    </ChatStack.Navigator>
   );
 };
 

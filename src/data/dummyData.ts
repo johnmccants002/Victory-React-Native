@@ -11,14 +11,14 @@ export const data = [
     name: "Sara Chen",
     username: "sara_chen",
     postText: "I can't believe I finally finished my thesis!",
-    postImage: "",
+    postImage: null,
     userImage: "https://example.com/sara_chen.jpg",
   },
   {
     name: "Mike Johnson",
     username: "mike_johnson",
     postText: "So excited to announce that I just got engaged!",
-    postImage: "https://example.com/engagement.jpg",
+    postImage: null,
     userImage: "https://example.com/mike_johnson.jpg",
   },
   {

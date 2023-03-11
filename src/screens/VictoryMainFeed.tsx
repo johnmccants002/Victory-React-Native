@@ -13,7 +13,7 @@ export const VictoryMainFeed = () => {
     fetchVictories();
 
     setTimeout(() => {
-      setIsLoading(true);
+      setIsLoading(false);
     }, 5000);
   }, []);
 
@@ -21,6 +21,19 @@ export const VictoryMainFeed = () => {
     const victories = await DataStore.query(Victory);
 
     setVictories(victories);
+  };
+
+  const renderSkeletonPosts = () => {
+    return skelData.map(() => (
+      <View style={{ padding: 20 }}>
+        <Skeleton
+          height={200}
+          width={300}
+          colorMode={"light"}
+          colors={["gainsboro", "lightGray", "black"]}
+        />
+      </View>
+    ));
   };
 
   return (
@@ -32,7 +45,9 @@ export const VictoryMainFeed = () => {
       }}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
-        {victories ? (
+        {isLoading ? (
+          renderSkeletonPosts()
+        ) : victories ? (
           <>
             {victories.map((victory) => {
               return (
@@ -43,7 +58,7 @@ export const VictoryMainFeed = () => {
                     borderColor: "gray",
                     borderWidth: 2,
                     margin: 40,
-                    width: "auto",
+                    width: 300,
                   }}
                 >
                   {victory.victoryImage && (

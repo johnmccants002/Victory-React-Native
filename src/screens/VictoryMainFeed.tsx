@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, Image, StyleSheet } from "react-native";
 import { Victory } from "../models/index";
 import { DataStore } from "aws-amplify";
+import { Skeleton } from "moti/skeleton";
 
 export const VictoryMainFeed = () => {
   const [victories, setVictories] = useState<Array<Victory>>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const skelData = [1, 2, 3, 4, 5, 6, 7, 8];
 
   useEffect(() => {
     fetchVictories();
+
+    setTimeout(() => {
+      setIsLoading(true);
+    }, 5000);
   }, []);
 
   const fetchVictories = async () => {

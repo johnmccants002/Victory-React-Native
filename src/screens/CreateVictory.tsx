@@ -6,6 +6,7 @@ import { Amplify, Auth } from "aws-amplify";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { View, Text, TextInput, Button, Image, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import AWS from 'aws-sdk';
 
 export interface CreateVictoryProps {
   user?: User;
@@ -18,6 +19,12 @@ const CreateVictory = (props: CreateVictoryProps) => {
   const { user } = props;
   const [currUser, setCurrUser] = useState<CurrentUser | null>(null);
   const [imageUri, setImageUri] = useState(null);
+
+  const s3 = new AWS.S3({
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    region: process.env.BUCKET_REGION,
+  });
 
   const getUser = async () => {
     const userInfo = await Auth.currentUserInfo();
@@ -33,9 +40,34 @@ const CreateVictory = (props: CreateVictoryProps) => {
   const [victory, setVictory] = useState<Victory | null>(null);
   const [victoryText, setVictoryText] = useState("");
 
+  const uploadImageToS3 = (file, fileName) => {
+    const params = {
+      Bucket: 'victory-app-storage-3aa0344d95751-staging',
+      Key: fileName,
+      Body: file,
+      ACL: 'public-read',
+      ContentType: 'image/jpeg',
+    };
+  
+    s3.upload(params, (err, data) => {
+      if (err) {
+        console.log('Error:', err);
+      } else {
+        console.log('Upload Success:', data.Location);
+      }
+    });
+  };
+
+
+
+
   const createVictory = async () => {
     if (currUser) {
       try {
+
+
+
+
         await DataStore.save(
           new Victory({
             user: currUser.id,

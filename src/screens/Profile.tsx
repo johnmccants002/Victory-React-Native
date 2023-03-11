@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { User } from "../store/userSlice";
-import CreateVictory from "./CreateVictory";
-import { DataStore } from "aws-amplify";
 import { Victory } from "../models/index";
-import { Amplify, Auth } from "aws-amplify";
+import { Amplify, Auth, DataStore } from "aws-amplify";
+import { Button } from "react-native-paper";
 
 interface ProfileProps {
   user?: User;
@@ -34,6 +40,15 @@ const Profile = (props: ProfileProps) => {
     }
   };
 
+  const logout = async () => {
+    try {
+      await Auth.signOut();
+      // Navigate to your login screen or do any other necessary cleanup
+    } catch (error) {
+      console.log("Error signing out: ", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Image
@@ -50,11 +65,14 @@ const Profile = (props: ProfileProps) => {
       </Text>
       <Text style={styles.name}>{user?.preferred_username}</Text>
 
-      {user && <CreateVictory user={user} />}
-
-      {userVictories.map((victory) => {
-        return <Text style={{ padding: 20 }}>{victory.victoryText}</Text>;
-      })}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {userVictories.map((victory) => {
+          return <Text style={{ padding: 20 }}>{victory.victoryText}</Text>;
+        })}
+      </ScrollView>
+      <TouchableOpacity onPress={logout}>
+        <Text style={{ width: 50, height: 20 }}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 };

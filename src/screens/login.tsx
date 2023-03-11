@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,8 +14,10 @@ import { useTheme } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Auth } from "aws-amplify";
 
-const SignInScreen = () => {
+const SignInScreen = (props) => {
+  const { setUser } = props;
   const [data, setData] = React.useState({
     username: "",
     password: "",
@@ -84,8 +86,15 @@ const SignInScreen = () => {
     }
   };
 
-  const loginHandle = (userName: string, password: string) => {
-    console.log("Handle Login");
+  const loginHandle = async (userName: string, password: string) => {
+    console.log(userName, password, "LOGIN HANDLE");
+    try {
+      const user = await Auth.signIn(userName, password);
+      console.log("USER: ", user);
+      setUser(user);
+    } catch (error) {
+      console.log("ERROR: ", error);
+    }
   };
 
   return (

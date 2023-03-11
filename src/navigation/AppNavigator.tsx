@@ -9,12 +9,55 @@ import { Platform } from "react-native";
 import Profile from "../screens/Profile";
 const Stack = createStackNavigator();
 import { User } from "../store/userSlice";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import VictoryMainFeed from "../screens/VictoryMainFeed";
+import CreateVictoryHeader from "../components/CreateVictoryHeader";
+import CreateVictory from "../screens/CreateVictory";
 
 interface MainNavigatorProps {
   user: User;
 }
 
-export const SignUpNavigator = () => {
+type MainParamList = {
+  Profile: undefined;
+  VictoryMainFeed: undefined;
+  CreateVictory: undefined;
+};
+
+type FeedParamList = {
+  VictoryMainFeed: undefined;
+  CreateVictory: undefined;
+};
+
+const FeedStack = createStackNavigator<FeedParamList>();
+const MainTabs = createBottomTabNavigator<MainParamList>();
+
+export const TabNavigator = (props) => {
+  const { user } = props;
+  return (
+    <MainTabs.Navigator
+      initialRouteName="VictoryMainFeed"
+      screenOptions={{
+        tabBarActiveTintColor: "blue",
+        tabBarInactiveTintColor: "grey",
+        headerShown: false,
+      }}
+    >
+      <MainTabs.Screen name="VictoryMainFeed" component={FeedNavigator} />
+
+      <MainTabs.Screen
+        name="Profile"
+        options={{
+          headerShown: true,
+        }}
+        component={() => <Profile user={user} />}
+      />
+    </MainTabs.Navigator>
+  );
+};
+
+export const SignUpNavigator = (props) => {
+  const { setUser } = props;
   return (
     <Stack.Navigator
       initialRouteName="Login"
@@ -22,10 +65,28 @@ export const SignUpNavigator = () => {
         headerShown: Platform.OS === "ios" ? false : true,
       }}
     >
-      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen
+        name="Login"
+        component={() => <Login setUser={setUser} />}
+      />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="SignUpUserInfo" component={SignUpUserInfo} />
     </Stack.Navigator>
+  );
+};
+
+export const FeedNavigator = () => {
+  return (
+    <FeedStack.Navigator>
+      <FeedStack.Screen
+        name="VictoryMainFeed"
+        component={VictoryMainFeed}
+        options={{
+          headerRight: () => <CreateVictoryHeader />,
+        }}
+      />
+      <FeedStack.Screen name="CreateVictory" component={CreateVictory} />
+    </FeedStack.Navigator>
   );
 };
 
@@ -34,12 +95,15 @@ export const MainNavigator = (props: MainNavigatorProps) => {
 
   return (
     <Stack.Navigator
-      initialRouteName="Profile"
+      initialRouteName="Main"
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
       }}
     >
-      <Stack.Screen name="Profile" component={() => <Profile user={user} />} />
+      <Stack.Screen
+        name="Main"
+        component={() => <TabNavigator user={user} />}
+      />
     </Stack.Navigator>
   );
 };

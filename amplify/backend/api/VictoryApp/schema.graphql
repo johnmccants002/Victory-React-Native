@@ -1,6 +1,25 @@
+type Supporter @model @auth(rules: [{allow: public}]) {
+  id: ID
+  userId: ID
+}
+
+type VictoryType @model @auth(rules: [{allow: public}]) {
+  id: ID
+  name: String
+}
+
+type UserProfile @model @auth(rules: [{allow: public}]) {
+  id: ID
+  aboutText: String
+  photoUrl: AWSURL
+  email: AWSEmail!
+  fullName: String
+  userId: ID!
+}
+
 type Victory @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  user: ID!
+  id: ID
+  user: ID
   victoryText: String!
   victoryImage: AWSURL
-}
+} 

@@ -3,4 +3,5 @@ export interface User {
   aboutText?: string;
   preferred_username: string;
   photoUrl?: string;
+  id: string;
 }

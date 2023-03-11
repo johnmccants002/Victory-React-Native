@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3victoryappstorage3aa0344d",
+  "bucketName": "victory-app-storage-3aa0344d",
+  "policyUUID": "73870d90",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}

@@ -15,6 +15,8 @@ import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Auth } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
+import { UserProfile } from "../models";
 
 const SignInScreen = () => {
   const [data, setData] = React.useState({
@@ -29,6 +31,8 @@ const SignInScreen = () => {
   const [codeMode, setCodeMode] = React.useState<boolean>(false);
 
   const navigation = useNavigation();
+
+  React.useEffect(() => {}, []);
 
   const textInputChange = (val: string) => {
     if (val.length !== 0) {
@@ -93,6 +97,7 @@ const SignInScreen = () => {
           enabled: true,
         },
       });
+
       console.log(user);
       setCodeMode(true);
     } catch (error) {
@@ -101,6 +106,7 @@ const SignInScreen = () => {
   }
 
   async function confirmSignUp() {
+    let user = null;
     try {
       await Auth.confirmSignUp(data.username, code);
     } catch (error) {

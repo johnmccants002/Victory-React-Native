@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SignUp from "../screens/SignUp";
 import { SignUpUserInfo } from "../screens/SignUpUserInfo";
-import Login from "../screens/Login";
+import SignInScreen from "../screens/SignInScreen";
 import { Platform } from "react-native";
 import Profile from "../screens/Profile";
 const Stack = createStackNavigator();
@@ -67,7 +67,7 @@ export const SignUpNavigator = (props) => {
     >
       <Stack.Screen
         name="Login"
-        component={() => <Login setUser={setUser} />}
+        component={() => <SignInScreen setUser={setUser} />}
       />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="SignUpUserInfo" component={SignUpUserInfo} />

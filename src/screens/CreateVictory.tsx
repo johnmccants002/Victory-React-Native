@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ACCESS_KEY_ID, SECRET_ACCESS_KEY, BUCKET_REGION } from '@env';
+import { ACCESS_KEY_ID, SECRET_ACCESS_KEY, BUCKET_REGION, BUCKET_NAME } from '@env';
 import { User } from "../store/userSlice";
 import { DataStore } from "aws-amplify";
 import { Victory } from "../models/index";
@@ -8,8 +8,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { View, Text, TextInput, Button, Image, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import 'react-native-get-random-values';
-import * as FileSystem from 'expo-file-system';
-import { encode } from 'base-64';
 import { v4 as uuid } from 'uuid';
 import AWS from 'aws-sdk';
 
@@ -50,7 +48,7 @@ const CreateVictory = (props: CreateVictoryProps) => {
   const uploadImageToS3 = async () => {
     return new Promise((resolve, reject) => {
     const params = {
-      Bucket: 'victory-app-storage-3aa0344d95751-staging',
+      Bucket: BUCKET_NAME,
       Key: uuid() + '.jpg',
       Body: imgData,
       ACL: 'public-read',

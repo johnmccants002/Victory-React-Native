@@ -21,6 +21,10 @@ import ChatScreen from "../screens/Chat";
 import { StreamChat } from "stream-chat";
 import { chatApiKey } from "../config/chatConfig";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  getFocusedRouteNameFromRoute,
+  useNavigationState,
+} from "@react-navigation/native";
 
 interface MainNavigatorProps {
   user: User;
@@ -50,9 +54,22 @@ const MainTabs = createBottomTabNavigator<MainParamList>();
 
 const chatClient = StreamChat.getInstance(chatApiKey);
 
+const getActiveRoute = (state) => {
+  const route = state.routes[state?.index || 0];
+  if (route.state) {
+    // Dive into nested navigators
+    return getActiveRoute(route.state);
+  }
+
+  return route;
+};
+
 export const TabNavigator = (props) => {
   const { user } = props;
   const { clientIsReady } = useChatClient();
+  const navigationState = useNavigationState((state) => state);
+  const activeRoute = getActiveRoute(navigationState);
+  // let routeName = getFocusedRouteNameFromRoute(activeRoute);
   if (!clientIsReady) {
     return <Text>Loading chat ...</Text>;
   }
@@ -84,12 +101,21 @@ export const TabNavigator = (props) => {
           <MainTabs.Screen
             name="ChatNavigator"
             component={ChatNavigator}
-            options={{
+            options={({ route }) => ({
+              tabBarStyle: ((route) => {
+                // console.log(routeName);
+                console.log("This is the route: ", route);
+                console.log("This is the active", activeRoute);
+                if (activeRoute.name === "Chat") {
+                  return { display: "none" };
+                }
+                return;
+              })(route),
               tabBarIcon: () => (
-                <MaterialCommunityIcons name="chat" size={18} />
+                <MaterialCommunityIcons name="chat-outline" size={18} />
               ),
               tabBarBadge: 2,
-            }}
+            })}
           />
 
           <MainTabs.Screen
@@ -109,12 +135,12 @@ export const TabNavigator = (props) => {
 };
 
 export const ChatNavigator = (props) => {
-  const navigation = useNavigation();
+  const { route, navigation } = props;
   return (
     <ChatStack.Navigator initialRouteName="Inbox">
       <ChatStack.Screen
         name={"Inbox"}
-        component={() => <Inbox navigation={navigation} />}
+        component={() => <Inbox navigation={navigation} route={route} />}
       />
       <ChatStack.Screen name={"Chat"} component={() => <ChatScreen />} />
     </ChatStack.Navigator>

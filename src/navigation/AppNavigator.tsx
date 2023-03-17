@@ -1,6 +1,6 @@
-import React from "react";
-import { View, Text } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SignUp from "../screens/SignUp";
 import { SignUpUserInfo } from "../screens/SignUpUserInfo";
@@ -13,6 +13,13 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import VictoryMainFeed from "../screens/VictoryMainFeed";
 import CreateVictoryHeader from "../components/CreateVictoryHeader";
 import CreateVictory from "../screens/CreateVictory";
+import SlotText from "../components/SlotText";
+import { useChatClient } from "../config/useChatClient";
+import { OverlayProvider, Chat } from "stream-chat-expo";
+import Inbox from "../screens/Inbox";
+import ChatScreen from "../screens/Chat";
+import { StreamChat } from "stream-chat";
+import { chatApiKey } from "../config/chatConfig";
 
 interface MainNavigatorProps {
   user: User;
@@ -22,6 +29,7 @@ type MainParamList = {
   Profile: undefined;
   VictoryMainFeed: undefined;
   CreateVictory: undefined;
+  ChatNavigator: undefined;
 };
 
 type FeedParamList = {
@@ -29,35 +37,68 @@ type FeedParamList = {
   CreateVictory: undefined;
 };
 
+type ChatParamList = {
+  Inbox: undefined;
+  Chat: undefined;
+  Profile: undefined;
+};
+
 const FeedStack = createStackNavigator<FeedParamList>();
+const ChatStack = createStackNavigator<ChatParamList>();
 const MainTabs = createBottomTabNavigator<MainParamList>();
+
+const chatClient = StreamChat.getInstance(chatApiKey);
 
 export const TabNavigator = (props) => {
   const { user } = props;
-  return (
-    <MainTabs.Navigator
-      initialRouteName="VictoryMainFeed"
-      screenOptions={{
-        tabBarActiveTintColor: "blue",
-        tabBarInactiveTintColor: "grey",
-        headerShown: false,
-      }}
-    >
-      <MainTabs.Screen name="VictoryMainFeed" component={FeedNavigator} />
+  const { clientIsReady } = useChatClient();
+  if (!clientIsReady) {
+    return <Text>Loading chat ...</Text>;
+  }
 
-      <MainTabs.Screen
-        name="Profile"
-        options={{
-          headerShown: true,
-        }}
-        component={() => <Profile user={user} />}
+  return (
+    <OverlayProvider>
+      <Chat client={chatClient}>
+        <MainTabs.Navigator
+          initialRouteName="VictoryMainFeed"
+          screenOptions={{
+            tabBarActiveTintColor: "blue",
+            tabBarInactiveTintColor: "grey",
+            headerShown: false,
+          }}
+        >
+          <MainTabs.Screen name="VictoryMainFeed" component={FeedNavigator} />
+          <MainTabs.Screen name="ChatNavigator" component={ChatNavigator} />
+
+          <MainTabs.Screen
+            name="Profile"
+            options={{
+              headerShown: true,
+            }}
+            component={() => <Profile user={user} />}
+          />
+        </MainTabs.Navigator>
+      </Chat>
+    </OverlayProvider>
+  );
+};
+
+export const ChatNavigator = (props) => {
+  const navigation = useNavigation();
+  return (
+    <ChatStack.Navigator initialRouteName="Inbox">
+      <ChatStack.Screen
+        name={"Inbox"}
+        component={() => <Inbox navigation={navigation} />}
       />
-    </MainTabs.Navigator>
+      <ChatStack.Screen name={"Chat"} component={() => <ChatScreen />} />
+    </ChatStack.Navigator>
   );
 };
 
 export const SignUpNavigator = (props) => {
   const { setUser } = props;
+
   return (
     <Stack.Navigator
       initialRouteName="Login"
@@ -76,13 +117,32 @@ export const SignUpNavigator = (props) => {
 };
 
 export const FeedNavigator = () => {
+  const [toggleModal, setToggleModal] = useState(false);
   return (
     <FeedStack.Navigator>
       <FeedStack.Screen
         name="VictoryMainFeed"
-        component={VictoryMainFeed}
+        component={() => (
+          <VictoryMainFeed
+            toggleModal={toggleModal}
+            setToggleModal={setToggleModal}
+          />
+        )}
         options={{
           headerRight: () => <CreateVictoryHeader />,
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => setToggleModal(true)}>
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: 20,
+                }}
+              >
+                <SlotText />
+              </View>
+            </TouchableOpacity>
+          ),
         }}
       />
       <FeedStack.Screen name="CreateVictory" component={CreateVictory} />

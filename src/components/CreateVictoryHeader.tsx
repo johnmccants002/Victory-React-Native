@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, Image, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const CreateVictoryHeader = (props) => {
   // console.log("~~ Props::: ", props);
@@ -21,7 +22,7 @@ const CreateVictoryHeader = (props) => {
       ]}
       onPress={() => navigation.navigate("CreateVictory")}
     >
-      <Text>+</Text>
+      <MaterialCommunityIcons name="plus" size={24} color="purple" />
     </TouchableOpacity>
   );
 };

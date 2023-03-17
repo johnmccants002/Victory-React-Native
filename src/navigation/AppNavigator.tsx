@@ -20,6 +20,7 @@ import Inbox from "../screens/Inbox";
 import ChatScreen from "../screens/Chat";
 import { StreamChat } from "stream-chat";
 import { chatApiKey } from "../config/chatConfig";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface MainNavigatorProps {
   user: User;
@@ -67,13 +68,37 @@ export const TabNavigator = (props) => {
             headerShown: false,
           }}
         >
-          <MainTabs.Screen name="VictoryMainFeed" component={FeedNavigator} />
-          <MainTabs.Screen name="ChatNavigator" component={ChatNavigator} />
+          <MainTabs.Screen
+            name="VictoryMainFeed"
+            component={FeedNavigator}
+            options={{
+              tabBarIcon: () => (
+                <MaterialCommunityIcons
+                  name="alpha-v-circle-outline"
+                  size={18}
+                />
+              ),
+            }}
+          />
+
+          <MainTabs.Screen
+            name="ChatNavigator"
+            component={ChatNavigator}
+            options={{
+              tabBarIcon: () => (
+                <MaterialCommunityIcons name="chat" size={18} />
+              ),
+              tabBarBadge: 2,
+            }}
+          />
 
           <MainTabs.Screen
             name="Profile"
             options={{
               headerShown: true,
+              tabBarIcon: () => (
+                <MaterialCommunityIcons name="face-man-profile" size={18} />
+              ),
             }}
             component={() => <Profile user={user} />}
           />

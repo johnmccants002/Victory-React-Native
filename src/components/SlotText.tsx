@@ -5,7 +5,7 @@ import SlotMachine from "react-native-slot-machine";
 export default function SlotText() {
   const [slotSettings, setSlotSettings] = useState({
     duration: 2000,
-    slot1: "002",
+    slot1: "2",
   });
   const slotRef = useRef(null);
   //   useEffect(() => {
@@ -32,7 +32,6 @@ export default function SlotText() {
   //     setTimeout(() => slotRef.current.spinTo("0001"), 12000);
   //   }, []);
 
-  const symbols = ["🍏", "🍎", "🍐", "🍊", "🍋", "🍌"]; // can't use emojies in SlotMachine because some of them are comprised of 2 chars
   return (
     <View
       style={{
@@ -45,6 +44,7 @@ export default function SlotText() {
         text={slotSettings.slot1}
         duration={slotSettings.duration}
         styles={styles}
+        padding={1}
       />
     </View>
   );
@@ -55,11 +55,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     overflow: "hidden",
     backgroundColor: "white",
-    width: 80,
+    width: 100,
   },
   slotWrapper: {
     backgroundColor: "white",
-    width: 10,
+    width: 80,
     height: 40,
     marginLeft: 5,
   },
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   text: {
-    fontSize: 12,
+    fontSize: 18,
     top: -2,
     fontWeight: "bold",
     color: "purple",

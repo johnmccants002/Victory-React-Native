@@ -2,14 +2,20 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import SignUp from "./src/screens/SignUp";
 import { NavigationContainer } from "@react-navigation/native";
-import { SignUpNavigator, MainNavigator } from "./src/navigation/AppNavigator";
+import {
+  SignUpNavigator,
+  MainNavigator,
+  TabNavigator,
+} from "./src/navigation/AppNavigator";
 import { Amplify, Auth, DataStore } from "aws-amplify";
 import awsconfig from "./src/aws-exports";
 import { useState, useEffect } from "react";
 import { User } from "./src/store/userSlice";
 import { UserProfile } from "./src/models";
-
-
+import "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { OverlayProvider } from "stream-chat-expo";
+import { AppProvider } from "./src/config/AppContext";
 
 // import { withAuthenticator } from "@aws-amplify/ui-react";
 
@@ -53,13 +59,19 @@ function App() {
     }
   }, [user]);
   return (
-    <NavigationContainer>
-      {user ? (
-        <MainNavigator user={user} />
-      ) : (
-        <SignUpNavigator setUser={setUser} />
-      )}
-    </NavigationContainer>
+    <AppProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <OverlayProvider>
+          <NavigationContainer>
+            {user ? (
+              <MainNavigator user={user} />
+            ) : (
+              <SignUpNavigator setUser={setUser} />
+            )}
+          </NavigationContainer>
+        </OverlayProvider>
+      </GestureHandlerRootView>
+    </AppProvider>
   );
 }
 

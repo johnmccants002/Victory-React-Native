@@ -50,30 +50,62 @@ const Profile = (props: ProfileProps) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={{
-          uri: user?.photoUrl
-            ? user?.photoUrl
-            : "https://i.imgur.com/MWTxxA6.jpg",
-        }}
-        style={styles.photo}
-      />
-      <Text style={styles.about}>
-        Yoooo I'm John McCants and I am currently building this Victory App on
-        React Native
-      </Text>
-      <Text style={styles.name}>{user?.preferred_username}</Text>
+    <ScrollView style={styles.scrollViewContainer}>
+      <View style={styles.headerContainer}>
+        <Image
+          style={styles.coverPhoto}
+          source={{
+            uri: "https://www.bootdey.com/image/250x250/9400D3/9400D3",
+          }}
+        />
+
+        <View style={styles.profileContainer}>
+          <Image
+            source={{
+              uri: user?.photoUrl
+                ? user?.photoUrl
+                : "https://i.imgur.com/MWTxxA6.jpg",
+            }}
+            style={styles.profilePhoto}
+          />
+          <Text style={styles.nameText}>{user?.preferred_username}</Text>
+        </View>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.statCount}>1234</Text>
+        <Text style={styles.statLabel}>Supporters</Text>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.bioText}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et
+          ullamcorper nisi.
+        </Text>
+      </View>
+
+      <View style={styles.section}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Edit Profile</Text>
+        </TouchableOpacity>
+
+        {/* <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Send Message</Text>
+        </TouchableOpacity> */}
+
+        {/* <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Sponsor</Text>
+        </TouchableOpacity> */}
+      </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {userVictories.map((victory) => {
           return <Text style={{ padding: 20 }}>{victory.victoryText}</Text>;
         })}
       </ScrollView>
-      <TouchableOpacity onPress={logout}>
+      {/* <TouchableOpacity onPress={logout}>
         <Text style={{ width: 50, height: 20 }}>Logout</Text>
-      </TouchableOpacity>
-    </View>
+      </TouchableOpacity> */}
+    </ScrollView>
   );
 };
 
@@ -84,6 +116,12 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     padding: 20,
   },
+  scrollViewContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    marginTop: 120,
+  },
+  coverPhoto: {},
   photo: {
     width: 120,
     height: 120,
@@ -104,6 +142,75 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     color: "#888",
+  },
+  headerContainer: {
+    alignItems: "center",
+  },
+  profileContainer: {
+    alignItems: "center",
+    marginTop: -70,
+  },
+  profilePhoto: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+  },
+  nameText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  bioContainer: {
+    padding: 15,
+  },
+  bioText: {
+    fontSize: 16,
+    textAlign: "center",
+    color: "#A9A9A9",
+  },
+  section: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    marginVertical: 5,
+    paddingHorizontal: 10,
+  },
+  statCount: {
+    color: "#999",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  statLabel: {
+    fontSize: 16,
+    color: "#999",
+    marginLeft: 4,
+  },
+  button: {
+    backgroundColor: "#9400D3",
+    borderRadius: 5,
+    padding: 10,
+    marginHorizontal: 20,
+    width: 220,
+  },
+  buttonText: {
+    fontSize: 16,
+    color: "#fff",
+    textAlign: "center",
+  },
+  friendCard: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginLeft: 2,
+  },
+  friendImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  friendsScroll: {
+    paddingBottom: 10,
   },
 });
 export default Profile;

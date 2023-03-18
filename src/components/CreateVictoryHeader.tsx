@@ -22,7 +22,7 @@ const CreateVictoryHeader = (props) => {
       ]}
       onPress={() => navigation.navigate("CreateVictory")}
     >
-      <MaterialCommunityIcons name="plus" size={24} color="purple" />
+      <MaterialCommunityIcons name="plus" size={24} color="white" />
     </TouchableOpacity>
   );
 };

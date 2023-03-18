@@ -54,17 +54,17 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     overflow: "hidden",
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     width: 100,
   },
   slotWrapper: {
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     width: 80,
     height: 40,
     marginLeft: 5,
   },
   slotInner: {
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     // alignSelf: "stretch",
     justifyContent: "center",
     alignItems: "center",
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     top: -2,
     fontWeight: "bold",
-    color: "purple",
+    color: "white",
   },
   innerBorder: {
     position: "absolute",
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     // borderWidth: 1,
     zIndex: 1,
+    opacity: 0,
   },
   outerBorder: {
     position: "absolute",
@@ -95,6 +96,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     // borderWidth: 1,
     zIndex: 1,
+    opacity: 0,
   },
   overlay: {
     position: "absolute",
@@ -102,5 +104,6 @@ const styles = StyleSheet.create({
     right: 0,
     left: 0,
     backgroundColor: "#ffffff77",
+    opacity: 0,
   },
 });

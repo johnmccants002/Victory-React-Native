@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SignUp from "../screens/SignUp";
@@ -25,6 +25,29 @@ import {
   getFocusedRouteNameFromRoute,
   useNavigationState,
 } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
+
+const CustomHeader = ({ title }) => {
+  return (
+    <LinearGradient
+      colors={["orange", "purple"]}
+      style={styles.container}
+    ></LinearGradient>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    height: "100%",
+    justifyContent: "center",
+    paddingHorizontal: 15,
+  },
+  title: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+});
 
 interface MainNavigatorProps {
   user: User;
@@ -45,7 +68,6 @@ type FeedParamList = {
 type ChatParamList = {
   Inbox: undefined;
   Chat: undefined;
-  Profile: undefined;
 };
 
 const FeedStack = createStackNavigator<FeedParamList>();
@@ -70,9 +92,9 @@ export const TabNavigator = (props) => {
   const navigationState = useNavigationState((state) => state);
   const activeRoute = getActiveRoute(navigationState);
   // let routeName = getFocusedRouteNameFromRoute(activeRoute);
-  if (!clientIsReady) {
-    return <Text>Loading chat ...</Text>;
-  }
+  // if (!clientIsReady) {
+  //   return <Text>Loading chat ...</Text>;
+  // }
 
   return (
     <OverlayProvider>
@@ -121,7 +143,6 @@ export const TabNavigator = (props) => {
           <MainTabs.Screen
             name="Profile"
             options={{
-              headerShown: true,
               tabBarIcon: () => (
                 <MaterialCommunityIcons name="face-man-profile" size={18} />
               ),
@@ -170,7 +191,11 @@ export const SignUpNavigator = (props) => {
 export const FeedNavigator = () => {
   const [toggleModal, setToggleModal] = useState(false);
   return (
-    <FeedStack.Navigator>
+    <FeedStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <FeedStack.Screen
         name="VictoryMainFeed"
         component={() => (
@@ -181,6 +206,9 @@ export const FeedNavigator = () => {
         )}
         options={{
           headerRight: () => <CreateVictoryHeader />,
+          headerShown: true,
+          headerTintColor: "white",
+          headerTitle: "Victory",
           headerLeft: () => (
             <TouchableOpacity onPress={() => setToggleModal(true)}>
               <View
@@ -194,6 +222,7 @@ export const FeedNavigator = () => {
               </View>
             </TouchableOpacity>
           ),
+          headerBackground: () => <CustomHeader title="Victory" />,
         }}
       />
       <FeedStack.Screen name="CreateVictory" component={CreateVictory} />

@@ -2,7 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import SignUp from "./src/screens/SignUp";
 import { NavigationContainer } from "@react-navigation/native";
-import { SignUpNavigator, MainNavigator } from "./src/navigation/AppNavigator";
+import {
+  SignUpNavigator,
+  MainNavigator,
+  TabNavigator,
+} from "./src/navigation/AppNavigator";
 import { Amplify, Auth, DataStore } from "aws-amplify";
 import awsconfig from "./src/aws-exports";
 import { useState, useEffect } from "react";

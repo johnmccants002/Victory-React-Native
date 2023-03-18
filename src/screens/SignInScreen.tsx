@@ -98,10 +98,13 @@ const SignInScreen = (props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      style={styles.container}
+      colors={["purple", "orange", "purple", "orange"]}
+    >
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
       <View style={styles.header}>
-        <Text style={styles.text_header}>Welcome!</Text>
+        <Text style={styles.text_header}>Victory App</Text>
       </View>
       <Animatable.View
         animation="fadeInUpBig"
@@ -151,13 +154,6 @@ const SignInScreen = (props) => {
             </Animatable.View>
           ) : null}
         </View>
-        {data.isValidUser ? null : (
-          <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>
-              Username must be 4 characters long.
-            </Text>
-          </Animatable.View>
-        )}
 
         <Text style={[styles.text_footer]}>Password</Text>
         <View style={styles.action}>
@@ -178,13 +174,6 @@ const SignInScreen = (props) => {
             )}
           </TouchableOpacity>
         </View>
-        {data.isValidPassword ? null : (
-          <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>
-              Password must be 8 characters long.
-            </Text>
-          </Animatable.View>
-        )}
 
         <TouchableOpacity>
           <Text style={{ color: "#009387", marginTop: 15 }}>
@@ -198,9 +187,11 @@ const SignInScreen = (props) => {
               loginHandle(data.username, data.password);
             }}
           >
-            <LinearGradient
-              colors={["#08d4c4", "#01ab9d"]}
-              style={styles.signIn}
+            <View
+              style={[
+                styles.signIn,
+                { backgroundColor: "purple", opacity: 0.7 },
+              ]}
             >
               <Text
                 style={[
@@ -212,7 +203,7 @@ const SignInScreen = (props) => {
               >
                 Sign In
               </Text>
-            </LinearGradient>
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -220,7 +211,8 @@ const SignInScreen = (props) => {
             style={[
               styles.signIn,
               {
-                borderColor: "#009387",
+                borderColor: "black",
+                opacity: 0.5,
                 borderWidth: 1,
                 marginTop: 15,
               },
@@ -230,7 +222,7 @@ const SignInScreen = (props) => {
               style={[
                 styles.textSign,
                 {
-                  color: "#009387",
+                  color: "black",
                 },
               ]}
             >
@@ -239,7 +231,7 @@ const SignInScreen = (props) => {
           </TouchableOpacity>
         </View>
       </Animatable.View>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -248,7 +240,7 @@ export default SignInScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#009387",
+    backgroundColor: "purple",
   },
   header: {
     flex: 1,

@@ -168,9 +168,15 @@ export const VictoryMainFeed = (props) => {
                   shadowOpacity: 0.1,
                   shadowRadius: 2,
                   width: "90%",
-                  height: 240,
+                  height: obj.postImage ? 240 : 120,
                 }}
               >
+                <MaterialCommunityIcons
+                  name="chevron-down"
+                  color={"gainsboro"}
+                  size={28}
+                  style={{ position: "absolute", top: 4, right: 4 }}
+                />
                 <View style={{ flexDirection: "row" }}>
                   <Image
                     style={{ height: 40, width: 40 }}
@@ -220,58 +226,53 @@ export const VictoryMainFeed = (props) => {
                     >
                       <View style={styles.divider}></View>
                     </View>
-                    <TouchableOpacity onPress={replyPress}>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          paddingTop: 4,
-                        }}
-                      >
-                        <Text>Reply</Text>
-                        <MaterialCommunityIcons
-                          name={"message-outline"}
-                          size={25}
-                          color={"grey"}
-                        />
-                      </View>
-                    </TouchableOpacity>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-around",
+                        width: "100%",
+                      }}
+                    >
+                      <TouchableOpacity onPress={replyPress}>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            paddingTop: 4,
+                          }}
+                        >
+                          <Text>Respect </Text>
+                          <MaterialCommunityIcons
+                            name={"thumb-up-outline"}
+                            size={25}
+                            color={"grey"}
+                          />
+                        </View>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity onPress={replyPress}>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            paddingTop: 4,
+                          }}
+                        >
+                          <Text>Reply </Text>
+                          <MaterialCommunityIcons
+                            name={"message-outline"}
+                            size={25}
+                            color={"grey"}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               </View>
             ))}
-
-        {/* {isLoading ? (
-          renderSkeletonPosts()
-        ) : victories ? (
-          <>
-            {victories.map((victory) => {
-              return (
-                <View
-                  style={{
-                    alignItems: "center",
-                    padding: 40,
-                    borderColor: "gray",
-                    borderWidth: 2,
-                    margin: 40,
-                    width: 300,
-                  }}
-                >
-                  {victory.victoryImage && (
-                    <Image
-                      style={styles.image}
-                      source={{ uri: victory.victoryImage }}
-                    />
-                  )}
-                  <Text>{victory.victoryText}</Text>
-                </View>
-              );
-            })}
-          </>
-        ) : (
-          <Text>Fetching Victories</Text>
-        )} */}
       </ScrollView>
     </View>
   );

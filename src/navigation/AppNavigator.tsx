@@ -167,7 +167,13 @@ export const TabNavigator = (props) => {
 export const ChatNavigator = (props) => {
   const { route, navigation } = props;
   return (
-    <ChatStack.Navigator initialRouteName="Inbox">
+    <ChatStack.Navigator
+      initialRouteName="Inbox"
+      screenOptions={{
+        headerBackground: () => <CustomHeader />,
+        headerTintColor: "white",
+      }}
+    >
       <ChatStack.Screen
         name={"Inbox"}
         component={() => <Inbox navigation={navigation} route={route} />}

@@ -24,6 +24,7 @@ import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
 import AWS from "aws-sdk";
 import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export interface CreateVictoryProps {
   user?: User;
@@ -124,10 +125,23 @@ const CreateVictory = (props: CreateVictoryProps) => {
         value={victoryText}
         onChangeText={setVictoryText}
       />
+      <View
+        style={{
+          flexDirection: "row-reverse",
+          width: "100%",
+          marginLeft: 20,
+        }}
+      >
+        <TouchableOpacity onPress={handleChooseImage}>
+          <MaterialCommunityIcons
+            name="image-plus"
+            size={50}
+            color={"#5856D6"}
+          />
+        </TouchableOpacity>
+      </View>
       {imageUri && <Image style={styles.image} source={{ uri: imageUri }} />}
-      <Button title="Choose image" onPress={handleChooseImage} />
-      <Button title="Create" onPress={createVictory} />
-      <Button title="Exit" onPress={() => navigation.goBack()} />
+      <Button title="Create Victory" onPress={createVictory} />
     </View>
   );
 };
@@ -135,9 +149,11 @@ const CreateVictory = (props: CreateVictoryProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
     backgroundColor: "white",
+    paddingTop: 20,
+    paddingHorizontal: 10,
   },
   label: {
     fontSize: 24,
@@ -145,12 +161,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 4,
     padding: 8,
-    marginBottom: 16,
-    width: "80%",
+    width: "100%",
+    paddingBottom: 100,
   },
   image: {
     width: "80%",

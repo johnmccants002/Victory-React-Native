@@ -11,6 +11,7 @@ import { User } from "../store/userSlice";
 import { Victory } from "../models/index";
 import { Amplify, Auth, DataStore } from "aws-amplify";
 import { Button } from "react-native-paper";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface ProfileProps {
   user?: User;

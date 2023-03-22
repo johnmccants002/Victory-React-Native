@@ -1,6 +1,7 @@
 // AppContext.js
 
 import React, { useState } from "react";
+import type { StreamChat } from 'stream-chat';
 
 export const AppContext = React.createContext({
   channel: null,

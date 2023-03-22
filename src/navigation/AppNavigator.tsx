@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  PlatformColor,
+} from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SignUp from "../screens/SignUp";
@@ -26,11 +32,12 @@ import {
   useNavigationState,
 } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import Sponsors from "../screens/Sponsors";
 
 const CustomHeader = ({ title }) => {
   return (
     <LinearGradient
-      colors={["orange", "purple"]}
+      colors={["#FF9500", "#5856D6"]}
       style={styles.container}
     ></LinearGradient>
   );
@@ -47,6 +54,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
+  navBar: {},
 });
 
 interface MainNavigatorProps {
@@ -63,6 +71,7 @@ type MainParamList = {
 type FeedParamList = {
   VictoryMainFeed: undefined;
   CreateVictory: undefined;
+  Sponsors: undefined;
 };
 
 type ChatParamList = {
@@ -190,10 +199,14 @@ export const SignUpNavigator = (props) => {
 
 export const FeedNavigator = () => {
   const [toggleModal, setToggleModal] = useState(false);
+  const [showCreateVictory, setShowCreateVictory] = useState(false);
+  const navigation = useNavigation();
   return (
     <FeedStack.Navigator
       screenOptions={{
         headerShown: false,
+        headerBackground: () => <CustomHeader title="Victory" />,
+        headerTintColor: "white",
       }}
     >
       <FeedStack.Screen
@@ -210,7 +223,7 @@ export const FeedNavigator = () => {
           headerTintColor: "white",
           headerTitle: "Victory",
           headerLeft: () => (
-            <TouchableOpacity onPress={() => setToggleModal(true)}>
+            <TouchableOpacity onPress={() => navigation.navigate("Sponsors")}>
               <View
                 style={{
                   alignItems: "center",
@@ -225,7 +238,56 @@ export const FeedNavigator = () => {
           headerBackground: () => <CustomHeader title="Victory" />,
         }}
       />
-      <FeedStack.Screen name="CreateVictory" component={CreateVictory} />
+      <FeedStack.Screen
+        name="CreateVictory"
+        component={CreateVictory}
+        options={{
+          headerShown: true,
+          presentation: "transparentModal",
+          headerLeft: () => (
+            <TouchableOpacity onPress={navigation.navigate("VictoryMainFeed")}>
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginLeft: 20,
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="close-circle-outline"
+                  size={25}
+                  color="white"
+                />
+              </View>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <FeedStack.Screen
+        name="Sponsors"
+        component={Sponsors}
+        options={{
+          headerShown: true,
+          presentation: "transparentModal",
+          headerLeft: () => (
+            <TouchableOpacity onPress={navigation.goBack}>
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginLeft: 20,
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="close-circle-outline"
+                  size={25}
+                  color="white"
+                />
+              </View>
+            </TouchableOpacity>
+          ),
+        }}
+      />
     </FeedStack.Navigator>
   );
 };

@@ -17,6 +17,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { OverlayProvider } from "stream-chat-expo";
 import { AppProvider } from "./src/config/AppContext";
 
+
 // import { withAuthenticator } from "@aws-amplify/ui-react";
 
 Amplify.configure(awsconfig);

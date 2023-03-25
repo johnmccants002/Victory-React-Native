@@ -8,9 +8,6 @@ import awsconfig from "./src/aws-exports";
 import { useState, useEffect } from "react";
 import { User } from "./src/store/userSlice";
 import { UserProfile } from "./src/models";
-
-
-
 // import { withAuthenticator } from "@aws-amplify/ui-react";
 
 Amplify.configure(awsconfig);

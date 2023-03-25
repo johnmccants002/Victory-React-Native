@@ -11,7 +11,12 @@ import Tokens from "../screens/Tokens";
 
 const width = Dimensions.get("window").width;
 
-export const VictoryMainFeed = (props) => {
+interface VictoryMainFeedProps {
+  toggleModal: boolean;
+  setToggleModal: (value: boolean) => void;
+}
+
+export const VictoryMainFeed = (props: VictoryMainFeedProps) => {
   const { toggleModal, setToggleModal } = props;
   const [victories, setVictories] = useState<Array<Victory>>([]);
   const [isLoading, setIsLoading] = useState(true);

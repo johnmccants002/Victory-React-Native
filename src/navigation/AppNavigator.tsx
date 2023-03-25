@@ -251,7 +251,7 @@ export const FeedNavigator = () => {
           headerShown: true,
           presentation: "transparentModal",
           headerLeft: () => (
-            <TouchableOpacity onPress={navigation.navigate("VictoryMainFeed")}>
+            <TouchableOpacity onPress={navigation.goBack}>
               <View
                 style={{
                   alignItems: "center",
